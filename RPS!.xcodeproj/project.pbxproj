@@ -11,6 +11,9 @@
 		9B7140CB2ABF155E0060D4AA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7140CA2ABF155E0060D4AA /* ContentView.swift */; };
 		9B7140CD2ABF15600060D4AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B7140CC2ABF15600060D4AA /* Assets.xcassets */; };
 		9B7140D02ABF15600060D4AA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B7140CF2ABF15600060D4AA /* Preview Assets.xcassets */; };
+		9BB2FB2F2AC04C7700DB51B3 /* loseSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9BB2FB2E2AC04C7700DB51B3 /* loseSound.mp3 */; };
+		9BB2FB312AC04CB600DB51B3 /* winSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9BB2FB302AC04CB600DB51B3 /* winSound.mp3 */; };
+		9BB2FB332AC04E4D00DB51B3 /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9BB2FB322AC04E4D00DB51B3 /* backgroundMusic.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +22,9 @@
 		9B7140CA2ABF155E0060D4AA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9B7140CC2ABF15600060D4AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B7140CF2ABF15600060D4AA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9BB2FB2E2AC04C7700DB51B3 /* loseSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = loseSound.mp3; sourceTree = "<group>"; };
+		9BB2FB302AC04CB600DB51B3 /* winSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = winSound.mp3; sourceTree = "<group>"; };
+		9BB2FB322AC04E4D00DB51B3 /* backgroundMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundMusic.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +59,10 @@
 			children = (
 				9B7140C82ABF155E0060D4AA /* RPS_App.swift */,
 				9B7140CA2ABF155E0060D4AA /* ContentView.swift */,
+				9BB2FB2E2AC04C7700DB51B3 /* loseSound.mp3 */,
 				9B7140CC2ABF15600060D4AA /* Assets.xcassets */,
+				9BB2FB322AC04E4D00DB51B3 /* backgroundMusic.mp3 */,
+				9BB2FB302AC04CB600DB51B3 /* winSound.mp3 */,
 				9B7140CE2ABF15600060D4AA /* Preview Content */,
 			);
 			path = "RPS!";
@@ -126,7 +135,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B7140D02ABF15600060D4AA /* Preview Assets.xcassets in Resources */,
+				9BB2FB312AC04CB600DB51B3 /* winSound.mp3 in Resources */,
 				9B7140CD2ABF15600060D4AA /* Assets.xcassets in Resources */,
+				9BB2FB332AC04E4D00DB51B3 /* backgroundMusic.mp3 in Resources */,
+				9BB2FB2F2AC04C7700DB51B3 /* loseSound.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
