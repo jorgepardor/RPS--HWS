@@ -21,9 +21,18 @@ struct ContentView: View {
     @State private var showingResults = false
     @State private var player: AVAudioPlayer?
     
+    @State private var imageOpacities: [Double] = [0, 0, 0]
+    @State private var renderKey = UUID()
+
+
+    
+    @State private var shuffledData: [(originalIndex: Int, shuffledValue: Int)] = Array(0..<3).enumerated().map { (index, value) in
+        return (originalIndex: index, shuffledValue: value)
+    }.shuffled()
 
     
     var body: some View {
+        
         VStack {
             Spacer()
             
@@ -31,8 +40,8 @@ struct ContentView: View {
             
             Image(moves[computerChoice])
                 .resizable()
-                   .scaledToFit()  // Asegura que la imagen mantenga su relación de aspecto original
-                   .frame(width: 140)  // Estableces el width que quieres
+                   .scaledToFit()
+                   .frame(width: 140)
             
             if shouldWin {
                 Text ("¿Con qué ganas?")
@@ -44,20 +53,27 @@ struct ContentView: View {
                     .font(.title)
             }
             
-            
-            HStack {
-                ForEach(0..<3) {number in
-                    Button {
-                        play(choice: number)
-                    } label: {
-                        Image(moves[number])
-                            .resizable()
-                               .scaledToFit()  // Asegura que la imagen mantenga su relación de aspecto original
-                               .frame(width: 80)  // Estableces el width que quieres
+            Group {
+                HStack{
+                    ForEach(shuffledData, id: \.originalIndex) { item in
+                        Button(action: {
+                            play(choice: item.originalIndex)
+                        }) {
+                            Image(moves[item.shuffledValue])
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 80)
+                                .opacity(imageOpacities[item.originalIndex])
+                                .onAppear {
+                                    withAnimation(.easeIn(duration: 0.5)) {
+                                        imageOpacities[item.originalIndex] = 1
+                                    }
+                                }
+                        }
                     }
                 }
-            }
-            
+            }.id(renderKey)
+
             Spacer()
 
             Text("Tu puntuación es: \(score)")
@@ -65,7 +81,7 @@ struct ContentView: View {
             Spacer()
         }
         .onAppear {
-            playAudio(resourceName: "backgroundMusic.mp3", volume: 0.1, loop: true)
+//            playAudio(resourceName: "backgroundMusic.mp3", volume: 0.1, loop: true)
         }
         .alert("Partida terminada", isPresented: $showingResults ){
             Button("¿Quieres jugar otra vez?", action: reset)
@@ -74,6 +90,8 @@ struct ContentView: View {
         }
         
     }
+    
+    
     
     func play(choice: Int) {
         let winningMoves = [1, 2, 0]
@@ -86,11 +104,17 @@ struct ContentView: View {
         }
         
         if didWin {
-            score += 1
             playAudio(resourceName: "winSound.mp3")
+            score += 1
+            imageOpacities = [0, 0, 0]
+            renderKey = UUID()
+            
         } else {
-            score -= 1
             playAudio(resourceName: "loseSound.mp3")
+            score -= 1
+            imageOpacities = [0, 0, 0]
+            renderKey = UUID()
+
 
         }
         
@@ -100,6 +124,10 @@ struct ContentView: View {
             computerChoice = Int.random(in: 0..<3)
             shouldWin.toggle()
             questionCount += 1
+            shuffledData = Array(0..<3).enumerated().map { (index, value) in
+                return (originalIndex: index, shuffledValue: value)
+            }.shuffled()
+            
         }
         
         
@@ -110,6 +138,12 @@ struct ContentView: View {
         shouldWin = Bool.random()
         questionCount = 0
         score = 0
+        shuffledData = Array(0..<3).enumerated().map { (index, value) in
+            return (originalIndex: index, shuffledValue: value)
+        }.shuffled()
+        imageOpacities = [0, 0, 0]
+        renderKey = UUID()
+
     }
     
     func playAudio(resourceName: String, volume: Float = 0.6, loop: Bool = false) {
