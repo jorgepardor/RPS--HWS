@@ -24,6 +24,10 @@ struct ContentView: View {
     @State private var imageOpacities: [Double] = [0, 0, 0]
     @State private var renderKey = UUID()
 
+    @State private var remainingTime = 10
+    @State private var timer: Timer? = nil
+
+    @State private var showingTimeUpAlert = false
 
     
     @State private var shuffledData: [(originalIndex: Int, shuffledValue: Int)] = Array(0..<3).enumerated().map { (index, value) in
@@ -35,7 +39,6 @@ struct ContentView: View {
         
         VStack {
             Spacer()
-            
             Text("Si tu oponente ha sacado...")
             
             Image(moves[computerChoice])
@@ -73,6 +76,8 @@ struct ContentView: View {
                     }
                 }
             }.id(renderKey)
+            Text("Tiempo restante: \(remainingTime) segundos")
+                .font(.headline)
 
             Spacer()
 
@@ -81,7 +86,8 @@ struct ContentView: View {
             Spacer()
         }
         .onAppear {
-//            playAudio(resourceName: "backgroundMusic.mp3", volume: 0.1, loop: true)
+//           playAudio(resourceName: "backgroundMusic.mp3", volume: 0.1, loop: true)
+            startTimer()
         }
         .alert("Partida terminada", isPresented: $showingResults ){
             Button("¿Quieres jugar otra vez?", action: reset)
@@ -89,8 +95,52 @@ struct ContentView: View {
             Text("Tu puntuación fue: \(score)")
         }
         
+        .alert("Tiempo agotado", isPresented: $showingTimeUpAlert) {
+            Button("Reintentar", action: {
+                self.nextCycle()
+            })
+        } message: {
+            Text("¡El tiempo ha terminado!")
+        }
+        
     }
     
+    func startTimer() {
+        self.remainingTime = 10
+        
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { tempTimer in
+            if self.remainingTime > 0 {
+                self.remainingTime -= 1
+            } else {
+                tempTimer.invalidate()
+                self.timer = nil
+                self.score -= 1
+                self.showingTimeUpAlert = true
+            }
+        }
+    }
+
+
+    
+    func nextCycle() {
+        self.timer?.invalidate()
+        self.timer = nil
+        
+        if questionCount == 10 {
+            showingResults = true
+        } else {
+            computerChoice = Int.random(in: 0..<3)
+            shouldWin.toggle()
+            questionCount += 1
+            shuffledData = Array(0..<3).enumerated().map { (index, value) in
+                return (originalIndex: index, shuffledValue: value)
+            }.shuffled()
+            
+            // Reinicia el contador para el siguiente ciclo
+            startTimer()
+        }
+    }
+
     
     
     func play(choice: Int) {
@@ -129,6 +179,7 @@ struct ContentView: View {
             }.shuffled()
             
         }
+        nextCycle()
         
         
     }
